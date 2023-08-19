@@ -2,11 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 import { FaHtml5, FaCss3, FaJs, FaReact, FaJava, FaPython, FaLinkedin, FaGithub } from 'react-icons/fa';
 import styles from './home.module.css';
-import NavBar from "../app/components/NavBar"
+import NavBar from "./components/NavBar"
 
 export default function Home() {
   return (
-       
     <section id="home" className={styles['landing-page']}>
        <NavBar />
       <div className={styles['image-text-container']}>
