@@ -13,7 +13,7 @@
     justify-content: center;
     height: 100vh;
     padding: 2rem;
-    padding-top: 85rem; /* Add this line */
+    padding-top: 90rem; /* Add this line */
   }
   
   .image-text-container {
@@ -110,7 +110,7 @@
   @media (max-width: 767px) {
   
     .landing-page {
-      padding-top:110rem;
+      padding-top:120rem;
     }
   
     .image-container {
@@ -121,9 +121,6 @@
     .about-paragraph{
       margin-bottom:35rem;
     }
-
-
-  
   
     #title {
       font-size: 1rem;
