@@ -1,10 +1,70 @@
-import React from 'react';
+"use client";
+import { React, useState}  from 'react';
 import Image from 'next/image';
 import { FaHtml5, FaCss3, FaJs, FaReact, FaJava, FaPython, FaLinkedin, FaGithub } from 'react-icons/fa';
 import styles from './home.module.css';
 import NavBar from "./components/NavBar"
 
 export default function Home() {
+
+  
+  const [inputs, setInputs] = useState({
+		name: '',
+		email: '',
+		message: '',
+	})
+ 
+	const [form, setForm] = useState('')
+ 
+	const handleChange = (e) => {
+		setInputs((prev) => ({
+			...prev,
+			[e.target.id]: e.target.value,
+		}))
+	}
+ 
+	const onSubmitForm = async (e) => {
+    
+		e.preventDefault()
+
+		if (inputs.name && inputs.email && inputs.message) {
+			setForm({ state: 'loading' })
+			try {
+				const res = await fetch(`api/contact`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(inputs),
+				})
+ 
+				const { error } = await res.json()
+ 
+				if (error) {
+					setForm({
+						state: 'error',
+						message: error,
+					})
+					return
+				}
+ 
+				setForm({
+					state: 'success',
+					message: 'Your message was sent successfully.',
+				})
+				setInputs({
+					name: '',
+					email: '',
+					message: '',
+				})
+			} catch (error) {
+				setForm({
+					state: 'error',
+					message: 'Something went wrong',
+				})
+			}
+		}
+	}
   return (
     <section id="home" className={styles['landing-page']}>
        <NavBar />
@@ -116,26 +176,46 @@ export default function Home() {
         </div>
       </section>
       <section id="contact" className={styles.section}>
-        <div className={styles['contact-container']}>
-          <div className={styles['contact-title']}>
-            <h2>Contact Me</h2>
-            <p>Feel free to get in touch</p>
-          </div>
-          <div className={styles['contact-form']}>
-            <div className={styles['form-row']}>
-              <input type="text" placeholder="Name" required />
-            </div>
-            <div className={styles['form-row']}>
-              <input type="email" placeholder="Email" required />
-            </div>
-            <div className={styles['form-row']}>
-              <textarea placeholder="Message" required></textarea>
-            </div>
-            <div className={styles['form-row']}>
-              <button className={styles['submit-button']}>Submit Message</button>
-            </div>
-          </div>
-        </div>
+      <div className={styles.container}>
+			<form className={styles.form} onSubmit={(e) => onSubmitForm(e)}>
+				<input
+					id='name'
+					type='text'
+					value={inputs.name}
+					onChange={handleChange}
+					className={styles.inputField}
+					placeholder='Name'
+					required
+				/>
+				<input
+					id='email'
+					type='email'
+					value={inputs.email}
+					onChange={handleChange}
+					className={styles.inputField}
+					placeholder='Email'
+					required
+				/>
+				<textarea
+					id='message'
+					type='text'
+					value={inputs.message}
+					onChange={handleChange}
+					className={styles.inputField}
+					placeholder='Message'
+					rows='5'
+					required
+				/>
+				<input type='submit' className={styles.button} />
+				{form.state === 'loading' ? (
+					<div>Sending....</div>
+				) : form.state === 'error' ? (
+					<div>{form.message}</div>
+				) : (
+					form.state === 'success' && <div>Sent successfully</div>
+				)}
+			</form>
+		</div>
       </section>
     </section>
   );
