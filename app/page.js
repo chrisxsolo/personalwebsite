@@ -6,65 +6,36 @@ import styles from './home.module.css';
 import NavBar from "./components/NavBar"
 
 export default function Home() {
-
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   
-  const [inputs, setInputs] = useState({
-		name: '',
-		email: '',
-		message: '',
-	})
- 
-	const [form, setForm] = useState('')
- 
-	const handleChange = (e) => {
-		setInputs((prev) => ({
-			...prev,
-			[e.target.id]: e.target.value,
-		}))
-	}
- 
-	const onSubmitForm = async (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('../pages/api/posts/addMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
 
-		e.preventDefault()
-
-		if (inputs.name && inputs.email && inputs.message) {
-			setForm({ state: 'loading' })
-			try {
-				const res = await fetch(`./pages/api/routes`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(inputs),
-				})
- 
-				const { error } = await res.json()
- 
-				if (error) {
-					setForm({
-						state: 'error',
-						message: error,
-					})
-					return
-				}
- 
-				setForm({
-					state: 'success',
-					message: 'Your message was sent successfully.',
-				})
-				setInputs({
-					name: '',
-					email: '',
-					message: '',
-				})
-			} catch (error) {
-				setForm({
-					state: 'error',
-					message: 'Something went wrong',
-				})
-			}
-		}
-	}
+      if (response.status === 201) {
+        alert('Message sent successfully');
+        // Clear the form fields
+        setName('');
+        setEmail('');
+        setMessage('');
+      } else {
+        alert('Something went wrong');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong');
+    }
+  };
+  
   return (
     <section id="home" className={styles['landing-page']}>
        <NavBar />
@@ -176,26 +147,43 @@ export default function Home() {
         </div>
       </section>
       <section id="contact" className={styles.section}>
-        <div className={styles['contact-container']}>
-          <div className={styles['contact-title']}>
-            <h2>Contact Me</h2>
-            <p>Feel free to get in touch</p>
-          </div>
-          <div className={styles['contact-form']}>
-            <div className={styles['form-row']}>
-              <input type="text" placeholder="Name" required />
-            </div>
-            <div className={styles['form-row']}>
-              <input type="email" placeholder="Email" required />
-            </div>
-            <div className={styles['form-row']}>
-              <textarea placeholder="Message" required></textarea>
-            </div>
-            <div className={styles['form-row']}>
-              <button className={styles['submit-button']}>Submit Message</button>
-            </div>
-          </div>
+      <section id="contact" className={styles.section}>
+      <div className={styles['contact-form']}>
+      <form onSubmit={handleSubmit}>
+        <div className={styles['form-row']}>
+          <input
+            type="text"
+            placeholder="Name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
+        <div className={styles['form-row']}>
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className={styles['form-row']}>
+          <textarea
+            placeholder="Message"
+            required
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          ></textarea>
+        </div>
+        <div className={styles['form-row']}>
+          <button type="submit" className={styles['submit-button']}>
+            Submit Message
+          </button>
+        </div>
+      </form>
+    </div>
+      </section>
       </section>
     </section>
   );
