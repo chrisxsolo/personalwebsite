@@ -24,13 +24,13 @@ export default function Home() {
 	}
  
 	const onSubmitForm = async (e) => {
-    
+
 		e.preventDefault()
 
 		if (inputs.name && inputs.email && inputs.message) {
 			setForm({ state: 'loading' })
 			try {
-				const res = await fetch(`api/contact`, {
+				const res = await fetch(`./pages/api/routes`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -176,46 +176,26 @@ export default function Home() {
         </div>
       </section>
       <section id="contact" className={styles.section}>
-      <div className={styles.container}>
-			<form className={styles.form} onSubmit={(e) => onSubmitForm(e)}>
-				<input
-					id='name'
-					type='text'
-					value={inputs.name}
-					onChange={handleChange}
-					className={styles.inputField}
-					placeholder='Name'
-					required
-				/>
-				<input
-					id='email'
-					type='email'
-					value={inputs.email}
-					onChange={handleChange}
-					className={styles.inputField}
-					placeholder='Email'
-					required
-				/>
-				<textarea
-					id='message'
-					type='text'
-					value={inputs.message}
-					onChange={handleChange}
-					className={styles.inputField}
-					placeholder='Message'
-					rows='5'
-					required
-				/>
-				<input type='submit' className={styles.button} />
-				{form.state === 'loading' ? (
-					<div>Sending....</div>
-				) : form.state === 'error' ? (
-					<div>{form.message}</div>
-				) : (
-					form.state === 'success' && <div>Sent successfully</div>
-				)}
-			</form>
-		</div>
+        <div className={styles['contact-container']}>
+          <div className={styles['contact-title']}>
+            <h2>Contact Me</h2>
+            <p>Feel free to get in touch</p>
+          </div>
+          <div className={styles['contact-form']}>
+            <div className={styles['form-row']}>
+              <input type="text" placeholder="Name" required />
+            </div>
+            <div className={styles['form-row']}>
+              <input type="email" placeholder="Email" required />
+            </div>
+            <div className={styles['form-row']}>
+              <textarea placeholder="Message" required></textarea>
+            </div>
+            <div className={styles['form-row']}>
+              <button className={styles['submit-button']}>Submit Message</button>
+            </div>
+          </div>
+        </div>
       </section>
     </section>
   );
