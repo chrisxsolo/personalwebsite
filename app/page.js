@@ -9,32 +9,29 @@ export default function Home() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('../pages/api/posts/addMessage', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, message }),
-      });
 
-      if (response.status === 201) {
-        alert('Message sent successfully');
-        // Clear the form fields
-        setName('');
-        setEmail('');
-        setMessage('');
-      } else {
-        alert('Something went wrong');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Something went wrong');
-    }
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+  const response = await fetch('/api/add-message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    
+    },
+    body: JSON.stringify({
+      name: name,
+      email:email,
+      message: message, // Fix the property name here
+    }),
+  });
+
+  const data = await response.json();
+  // handle response
+};
+
+
+
   
   return (
     <section id="home" className={styles['landing-page']}>
@@ -156,7 +153,7 @@ export default function Home() {
             placeholder="Name"
             required
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(event) => setName(event.target.value)}
           />
         </div>
         <div className={styles['form-row']}>
@@ -165,7 +162,7 @@ export default function Home() {
             placeholder="Email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className={styles['form-row']}>
@@ -173,7 +170,7 @@ export default function Home() {
             placeholder="Message"
             required
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(event) => setMessage(event.target.value)}
           ></textarea>
         </div>
         <div className={styles['form-row']}>
