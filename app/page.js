@@ -9,26 +9,31 @@ export default function Home() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-  const response = await fetch('/api/add-message', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    
-    },
-    body: JSON.stringify({
-      name: name,
-      email:email,
-      message: message, // Fix the property name here
-    }),
-  });
+    const response = await fetch('/api/add-message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        message: message,
+      }),
+    });
 
-  const data = await response.json();
-  // handle response
-};
+    const data = await response.json();
+    if (data.success) {
+      setIsFormSubmitted(true); // Set form submission state to true
+      setName('');
+      setEmail('');
+      setMessage('');
+    }
+  };
 
 
 
@@ -144,9 +149,11 @@ export default function Home() {
         </div>
       </section>
       <section id="contact" className={styles.section}>
-      <section id="contact" className={styles.section}>
       <div className={styles['contact-form']}>
-      <form onSubmit={handleSubmit}>
+        {isFormSubmitted ? (
+          <p className={styles['success-message']}>Message sent successfully!</p>
+        ) : (
+          <form onSubmit={handleSubmit}>
         <div className={styles['form-row']}>
           <input
             type="text"
@@ -174,15 +181,15 @@ export default function Home() {
           ></textarea>
         </div>
         <div className={styles['form-row']}>
-          <button type="submit" className={styles['submit-button']}>
-            Submit Message
-          </button>
-        </div>
-      </form>
-    </div>
-      </section>
-      </section>
+              <button type="submit" className={styles['submit-button']}>
+                Submit Message
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
     </section>
+      </section>
   );
 }
 
