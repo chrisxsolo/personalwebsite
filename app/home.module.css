@@ -110,12 +110,9 @@
   @media (max-width: 767px) {
   
     .landing-page {
-      padding-top:108rem;
+      padding: 130rem;
     }
 
-    .about-container{
-    }
-  
     .image-container {
       width: 200px;
       height: 200px;
