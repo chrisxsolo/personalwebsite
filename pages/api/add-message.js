@@ -1,14 +1,11 @@
 // pages/api/submit-expenses.js
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 
-const prisma = new PrismaClient();
 
 
 
 export default async function handle(req, res) {
   const {name, email, message } = req.body;
-
-  if (req.method === 'POST') {
   const result = await prisma.contactMessage.create({
     data: {
       name: name,
@@ -16,7 +13,5 @@ export default async function handle(req, res) {
       message: message,
     },
   });
-
   res.json(result);
-}
 }
