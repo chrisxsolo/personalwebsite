@@ -6,7 +6,6 @@ import styles from './home.module.css';
 import NavBar from "./components/NavBar"
 import { useRef } from 'react'; // Import useRef
 import { useEffect } from 'react'; // Import useEffect
-export const dynamic = 'force-dynamic'
 
 
 
