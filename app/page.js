@@ -1,39 +1,57 @@
 "use client";
-import { React, useState}  from 'react';
+import { React, useState, Fragment}  from 'react';
 import Image from 'next/image';
 import { FaHtml5, FaCss3, FaJs, FaReact, FaJava, FaPython, FaLinkedin, FaGithub } from 'react-icons/fa';
 import styles from './home.module.css';
 import NavBar from "./components/NavBar"
+import { useRef } from 'react'; // Import useRef
+import { useEffect } from 'react'; // Import useEffect
+
+
 
 export default function Home() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
+    const [recentName, setRecentName] = useState(''); // State to store the most recent name
+  
+    useEffect(() => {
+      // Fetch the most recent name from the database when the component mounts
+      fetch('/api/get-recent-name')
+        .then(response => response.json())
+        .then(data => setRecentName(data.name));
+    }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
 
-    const response = await fetch('/api/add-message', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        message: message,
-      }),
-    });
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+    
+      const response = await fetch('/api/add-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          message: message,
+        }),
+      });
 
-    const data = await response.json();
-    if (data.success) {
-      setIsFormSubmitted(true); // Set form submission state to true
-      setName('');
-      setEmail('');
-      setMessage('');
-    }
-  };
+    
+      const data = await response.json();
+
+      data.success = true
+
+      if (data.success) {
+
+        setIsFormSubmitted(prevState => !prevState); // Toggle the state
+        setName(''); // Clear the name field
+        setEmail(''); // Clear the email field
+        setMessage(''); // Clear the message field
+      }
+    };
 
 
 
@@ -148,12 +166,25 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section id="contact" className={styles.section}>
-      <div className={styles['contact-form']}>
-        {isFormSubmitted ? (
-          <p className={styles['success-message']}>Message sent successfully!</p>
-        ) : (
-          <form onSubmit={handleSubmit}>
+      <section id="contact" className={styles["contact"]}>
+      <div className={styles['contact-container']}>
+    <div className={styles['contact-title']}>
+      <h2>Contact Me</h2>
+      <p>Feel free to get in touch</p>
+    </div>
+    <div className={styles['contact-form']}>
+
+    <div className={styles['success-message-container']}>
+      {isFormSubmitted ? (
+ <Fragment>
+ <p className={styles['success-message']}>Message sent successfully from {recentName}!</p>
+ <div className={styles['success-message-space']}></div> {/* Add this line */}
+</Fragment>
+)
+
+ : (
+        // Add a key to your form that changes when the form is submitted
+<form key={isFormSubmitted} onSubmit={handleSubmit}>
         <div className={styles['form-row']}>
           <input
             type="text"
@@ -181,13 +212,15 @@ export default function Home() {
           ></textarea>
         </div>
         <div className={styles['form-row']}>
-              <button type="submit" className={styles['submit-button']}>
-                Submit Message
-              </button>
-            </div>
-          </form>
-        )}
+          <button type="submit" className={styles['submit-button']}>
+            Submit Message
+          </button>
+        </div>
+      </form>
+      )}
       </div>
+    </div>
+  </div>
     </section>
       </section>
   );

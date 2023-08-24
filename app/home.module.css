@@ -1,9 +1,9 @@
 
 .section {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  min-height: 100vh; /* Change this line */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   }
   
   .landing-page {
@@ -110,7 +110,10 @@
   @media (max-width: 767px) {
   
     .landing-page {
-      padding-top:105rem;
+      padding-top:108rem;
+    }
+
+    .about-container{
     }
   
     .image-container {
@@ -118,8 +121,12 @@
       height: 200px;
     }
 
+    .blog-image{
+      margin-bottom:20rem;
+    }
+
     .about-paragraph{
-      margin-bottom:35rem;
+      margin-bottom:22rem;
     }
   
     #title {
@@ -141,6 +148,11 @@
     .tech-stack-icons {
       justify-content: center;
     }
+
+    #contact{
+      margin-top: 200rem;
+
+    }
     
     .image-text-container {
       display: flex;
@@ -153,18 +165,30 @@
     }
 
     .portfolio-container {
-      margin-top: 5rem; /* Adjust this value to your preference */
-      margin-bottom: 40rem;
+      margin-bottom: 200rem;
     }
 
     #portfolio{
       margin-top: 4rem;
     }
 
+    .contact-title h2{
+      margin-top: 8rem;
+    }
+
+    .contact{
+      margin-top: 30rem;
+    }
+
 
     .contact-container {
-      margin-top: 3rem; /* Adjust this value to your preference */
+      margin-top: 300rem; /* Adjust this value to your preference */
     }
+
+    .contact-title{
+      margin-top:200rem;
+    }
+
 
   }
 
@@ -176,7 +200,7 @@
     align-items: center;
     justify-content: center;
     text-align: center; /* Add this line */
-    margin: 6rem 0;
+    margin: 9rem 0;
     
   }
   
@@ -240,7 +264,9 @@
   .portfolio-container {
     background-color: #f5f5f5;
     text-align: center;
+    margin-bottom: 3rem;
   }
+
   
   .portfolio-title {
     margin-top: 3rem;
@@ -306,6 +332,15 @@
   .button-row {
     display: flex;
     margin-bottom: 1rem; /* Increase this value to create more spacing between rows */
+  }
+
+
+    .success-message {
+      margin-bottom: 3rem; /* Updated margin-bottom value */
+    }  
+
+  .success-message-container{
+    margin-bottom: 2rem;
   }
 
 
@@ -392,7 +427,7 @@
 }
 
 .contact-title {
-  margin-top:3rem;
+  margin-top:2rem;
   margin-bottom: 2rem;
 }
 
@@ -479,4 +514,8 @@
 .button {
   cursor: pointer;
   padding: 10px 0px;
+}
+
+.success-message-space {
+  height: 3rem; /* Adjust the height as needed */
 }
