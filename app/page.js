@@ -17,12 +17,12 @@ export default function Home() {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false); // State to track form submission
     const [recentName, setRecentName] = useState(''); // State to store the most recent name
   
-    useEffect(() => {
-      // Fetch the most recent name from the database when the component mounts
-      fetch('/api/get-recent-name')
-        .then(response => response.json())
-        .then(data => setRecentName(data.name));
-    }, []);
+    // useEffect(() => {
+    //   // Fetch the most recent name from the database when the component mounts
+    //   fetch('/api/get-recent-name')
+    //     .then(response => response.json())
+    //     .then(data => setRecentName(data.name));
+    // }, []);
 
 
     const handleSubmit = async (event) => {
@@ -45,13 +45,13 @@ export default function Home() {
 
       data.success = true
 
-      if (data.success) {
+      // if (data.success) {
 
-        setIsFormSubmitted(prevState => !prevState); // Toggle the state
-        setName(''); // Clear the name field
-        setEmail(''); // Clear the email field
-        setMessage(''); // Clear the message field
-      }
+      //   setIsFormSubmitted(prevState => !prevState); // Toggle the state
+      //   setName(''); // Clear the name field
+      //   setEmail(''); // Clear the email field
+      //   setMessage(''); // Clear the message field
+      // }
     };
 
 
