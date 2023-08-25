@@ -28,7 +28,7 @@ export default function Home() {
     const handleSubmit = async (event) => {
       event.preventDefault();
     
-      const response = await fetch('/api/add-message', {
+      const response = await fetch('https://www.chrissolo.dev/api/add-message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
