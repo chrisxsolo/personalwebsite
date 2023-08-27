@@ -110,8 +110,7 @@
   @media (max-width: 767px) {
   
     .landing-page {
-      margin-top: 30rem;
-
+      margin-top: 38rem;
     }
 
     .image-container {
@@ -129,9 +128,6 @@
   
     #title {
       font-size: 1rem;
-    }
-  
-    .tech-stack-container {
     }
   
     .tech-stack-wording {
@@ -158,9 +154,7 @@
   align-items: center;
   margin-bottom: 1rem; /* Adjust this value to your preference */
     }
-    
-    .about-container {
-    }
+
 
     .portfolio-container {
       margin-bottom: 200rem;
